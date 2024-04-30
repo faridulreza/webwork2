@@ -1,0 +1,1 @@
+docker exec -i webwork2_db_1 mysql -u root --password=sqlRootPasswordSetThisPasswordBEFOREfirstStartingTheDBcontainer webwork < export.sql

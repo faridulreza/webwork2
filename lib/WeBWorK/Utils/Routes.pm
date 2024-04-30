@@ -75,7 +75,7 @@ PLEASE FOR THE LOVE OF GOD UPDATE THIS IF YOU CHANGE THE ROUTES BELOW!!!
  instructor_add_users                /$courseID/instructor/add_users
  instructor_set_assigner             /$courseID/instructor/assigner
 
- instructor_set_maker                /$courseID/instructor/setmaker
+ instructor_set_maker                /$courseID/instructor/
  instructor_file_manager             /$courseID/instructor/file_manager
  instructor_config                   /$courseID/instructor/config
 

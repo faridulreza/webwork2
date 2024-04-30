@@ -40,10 +40,10 @@ use JSON;
 use WebworkWebservice;
 
 async sub pre_header_initialize ($c) {
-	unless ($c->authen->was_verified) {
-		$c->{output} = $c->maketext('Authentication failed. Log in again to continue.');
-		return;
-	}
+	# unless ($c->authen->was_verified) {
+	# 	$c->{output} = $c->maketext('Authentication failed. Log in again to continue.');
+	# 	return;
+	# }
 
 	my $rpc_command = $c->param('rpc_command');
 

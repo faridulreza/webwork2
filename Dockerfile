@@ -11,10 +11,13 @@ ARG PG_BRANCH="main"
 
 WORKDIR /opt/base
 
-RUN echo Cloning branch $WEBWORK2_BRANCH from $WEBWORK2_GIT_URL \
-	&& echo git clone --single-branch --branch ${WEBWORK2_BRANCH} --depth 1 $WEBWORK2_GIT_URL \
-	&& git clone --single-branch --branch ${WEBWORK2_BRANCH} --depth 1 $WEBWORK2_GIT_URL \
-	&& rm -rf webwork2/.git webwork2/{*ignore,Dockerfile,docker-compose.yml,docker-config}
+# RUN echo Cloning branch $WEBWORK2_BRANCH from $WEBWORK2_GIT_URL \
+# 	&& echo git clone --single-branch --branch ${WEBWORK2_BRANCH} --depth 1 $WEBWORK2_GIT_URL \
+# 	&& git clone --single-branch --branch ${WEBWORK2_BRANCH} --depth 1 $WEBWORK2_GIT_URL \
+# 	&& rm -rf webwork2/.git webwork2/{*ignore,Dockerfile,docker-compose.yml,docker-config}
+
+
+COPY . webwork2
 
 RUN echo Cloning branch $PG_BRANCH branch from $PG_GIT_URL \
 	&& echo git clone --single-branch --branch ${PG_BRANCH} --depth 1 $PG_GIT_URL \

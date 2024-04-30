@@ -112,6 +112,9 @@ elif [ $ADMIN_TABLE_EXISTS == 0 ]; then
 	echo "admin course db tables need updating"
 	$WEBWORK_ROOT/bin/upgrade_admin_db.pl
 	$WEBWORK_ROOT/bin/wwsh admin $WEBWORK_ROOT/bin/addadmin
+	# $WEBWORK_ROOT/bin/wwsh admin $WEBWORK_ROOT/bin/addprofa
+	# $WEBWORK_ROOT/bin/addcourse.pl --users=$WEBWORK_ROOT/bin/users.txt --professors=profa mainCourse
+
 	echo "admin course tables created with one user: admin   whose password is admin"
 else
 	echo "using pre-existing admin course and admin tables"
