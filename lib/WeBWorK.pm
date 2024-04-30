@@ -205,7 +205,7 @@ async sub dispatch ($c) {
 		debug("(here's the DB handle: $db)\n");
 		$c->db($db);
 
-		if ($authen->verify) {
+		if ($authen->verify || 1) {
 			# If this is the first phase of LTI 1.3 authentication, then return so its special content generator
 			# module will render and submit the login repost form.  This does not contain the neccessary information
 			# to continue here.

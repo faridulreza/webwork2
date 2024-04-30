@@ -157,6 +157,7 @@
 % }
 %
 <div id="pgrow<%= $cnt %>" class="lb-problem-row <%= $noshowclass %> <%= $sourceFileData->{noshow} ? 'd-none' : '' %>">
+    <label style="display:hidden" class="problem_source_name"><%= $sourceFileName %></label>
 	<div class="card p-2">
 		<div class="lb-problem-header d-flex flex-wrap justify-content-between">
 			<div class="lb-problem-add d-flex align-items-center mb-1">
