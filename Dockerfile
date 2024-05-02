@@ -1,4 +1,9 @@
 # ==================================================================
+
+
+
+
+# ==================================================================
 # Phase 1 - Download webwork and pg git repositories.
 
 FROM alpine/git AS base
@@ -43,6 +48,7 @@ ENV WEBWORK_URL=/webwork2 \
 	APP_ROOT=/opt/webwork \
 	DEBIAN_FRONTEND=noninteractive \
 	DEBCONF_NONINTERACTIVE_SEEN=true
+	
 
 ARG ADDITIONAL_BASE_IMAGE_PACKAGES
 
@@ -235,6 +241,27 @@ RUN echo "PATH=$PATH:$APP_ROOT/webwork2/bin" >> /root/.bashrc \
 	&& patch -p1 -d / < /tmp/imagemagick-allow-pdf-read.patch \
 	&& rm /tmp/imagemagick-allow-pdf-read.patch
 
+
+
+# ==================================================================
+# mysql setuo
+# ==================================================================
+
+
+ENV MYSQL_ROOT_PASSWORD=sqlRootPasswordSetThisPasswordBEFOREfirstStartingTheDBcontainer
+ENV MYSQL_DATABASE=webwork
+ENV MYSQL_USER=webworkWrite
+ENV MYSQL_PASSWORD=passwordRWsetItBeforeFirstStartingTheDBcontainer
+# Install packages needed for MySQL
+
+RUN  apt-get update \ 
+	&&	apt-get install -y mariadb-server
+COPY db_init_file.sql  .
+
+
+
+
+
 # ==================================================================
 # Phase 7 - Final setup and prepare docker-entrypoint.sh
 # Done near the end, so that an update to docker-entrypoint.sh can be
@@ -256,4 +283,10 @@ ENV SSL=0 \
 
 # ================================================
 
+
 CMD ["sudo", "-E", "-u", "www-data", "hypnotoad", "-f", "bin/webwork2"]
+
+
+
+
+

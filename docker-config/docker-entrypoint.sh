@@ -1,6 +1,10 @@
 #!/bin/bash
 set -eo pipefail
 
+#setup db
+sudo service mariadb start
+mysql < db_init_file.sql
+
 function wait_for_db {
 	echo "Waiting for database to become available..."
 	while ! timeout 1 bash -c "(cat < /dev/null > /dev/tcp/$WEBWORK_DB_HOST/$WEBWORK_DB_PORT) >/dev/null 2>&1"
@@ -45,8 +49,12 @@ fi
 if [ ! -d "$APP_ROOT/libraries/webwork-open-problem-library/OpenProblemLibrary" ]; then
 	echo "Cloning the OPL - This takes time - please be patient."
 	cd $APP_ROOT/libraries/
-	git config --global http.postBuffer 524288000
-	git config --global core.compression 0
+	#git config --global http.postBuffer 524288000
+	git config --global http.postBuffer 1048576000
+	git config --global https.postBuffer 1048576000
+	git config --global http.version HTTP/1.1
+
+	#git config --global core.compression 0
 	/usr/bin/git clone -v --progress --single-branch --branch main https://github.com/openwebwork/webwork-open-problem-library.git
 
   # The next line forces the system to download and install the OPL metadata later

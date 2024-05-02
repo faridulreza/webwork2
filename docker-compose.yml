@@ -1,58 +1,5 @@
 version: '3.5'
 services:
-  db:
-    image: mariadb:10.4
-
-    # Set a fixed container name, so it does not depend on the directory name
-    container_name: webwork2_db_1
-
-    volumes:
-      - mysql:/var/lib/mysql
-
-      # Set up UTF8MB4 in config file for the container.
-      # Needs to be done BEFORE the database is created.
-      # *** Some other MariaDB settings were modified in the sample file:
-      #        wait_timeout,  interactive_timeout, max_connections, net_read_timeout
-      #        + skip-name-resolve
-      # Note: It seems different versions of the MariaDB container need
-      #       this file in different locations. Put in in both places.
-      - './docker-config/db/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf'
-      - './docker-config/db/mariadb.cnf:/etc/mysql/mariadb.cnf'
-      # Tuning MariaDB config - sample file
-      # The sample file modifies wait_timeout, and adds skip-name-resolve
-      #- "./docker-config/db/my.cnf:/etc/mysql/my.cnf"
-
-      # Adjust open file limits for MariaDB/mySQL - sample file
-      #- "./docker-config/db/limits.conf:/etc/security/limits.conf"
-
-      # Provides read only access to the host system's /etc/localtime - tested on Linux hosts
-      #- "/etc/localtime:/etc/localtime:ro"
-
-      # The ulimits lines were only tested on Linux hosts in conjuction woth the limits.conf file
-      #ulimits:
-      #  nofile:
-      #    soft: 4096
-      #    hard: 4096
-
-    restart: always
-    environment:
-      # When the MariaDB container is first started it will set the
-      # the MYSQL_ROOT_PASSWORD if there is no mysql database in the
-      # data volume.
-      MYSQL_ROOT_PASSWORD: ${WEBWORK_MYSQL_ROOT_PASSWORD}
-
-      # When the MariaDB container is first started it will create
-      #    the WW database and WW DB user based on:
-      MYSQL_DATABASE: webwork
-      MYSQL_USER: ${WEBWORK_DB_USER}
-      MYSQL_PASSWORD: ${WEBWORK_DB_PASSWORD}
-
-      # A timezone for the DB server can be set:
-      #TZ: zone/city
-      # where zone/city must be a valid setting.
-      # "/usr/bin/timedatectl list-timezones" on an Ubuntu system with
-      # that tool installed will find valid values.
-      # See: https://stackoverflow.com/questions/39172652/using-docker-compose-to-set-containers-timezones
 
   app:
     # Modifying the image name can be helpful to create a new image instead of
@@ -107,9 +54,7 @@ services:
       # started and is thus faster than adding them in when a container is started via the
       # ADD_APT_PACKAGES setting below.
 
-    depends_on:
-      - db
-      - r
+  
 
     volumes:
       # ======================================================================
@@ -190,7 +135,7 @@ services:
       WEBWORK_DB_DRIVER: MariaDB
       # WEBWORK_DB_DRIVER: mysql
 
-      WEBWORK_DB_HOST: db
+      WEBWORK_DB_HOST: 127.0.0.1
       WEBWORK_DB_PORT: 3306
       WEBWORK_DB_NAME: webwork
 
@@ -245,16 +190,8 @@ services:
 
       #WEBWORK_TIMEZONE: America/New_York
 
-  r:
-    image: ubcctlt/rserve
-    # The R server need not be available from outside the local Docker network.
-    #ports:
-    #  - "6311:6311"
-
 volumes:
   oplVolume:
     driver: local
     name: webwork2_oplVolume
-  mysql:
-    driver: local
-    name: webwork2_mysql
+  
