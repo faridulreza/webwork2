@@ -1,17 +1,23 @@
 #!/bin/bash
 set -eo pipefail
+	# while true
+	# do
+	# 	echo "waiting..."
+	# 	sleep 0.5;
+	# done
 
 #setup db
-sudo service mariadb start
+service mariadb start
 mysql < db_init_file.sql
 
 function wait_for_db {
 	echo "Waiting for database to become available..."
-	while ! timeout 1 bash -c "(cat < /dev/null > /dev/tcp/$WEBWORK_DB_HOST/$WEBWORK_DB_PORT) >/dev/null 2>&1"
-	do
-		echo "waiting..."
-		sleep 0.5;
-	done
+	# while ! timeout 1 bash -c "(cat < /dev/null > /dev/tcp/$WEBWORK_DB_HOST/$WEBWORK_DB_PORT) >/dev/null 2>&1"
+	# do
+	# 	echo "waiting..."
+	# 	sleep 0.5;
+	# done
+	echo "Database is available."
 }
 
 # Build extra locales if requested.
@@ -253,7 +259,7 @@ echo "End fixing ownership and permissions"
 
 # Start the Minion job queue.
 echo "Starting Minion job queue"
-sudo -E -u www-data bin/webwork2 minion worker -m production &
+www-data bin/webwork2 minion worker -m production &
 
 # The code below allows you to use
 #    docker container exec -it webwork2_app_1 hypnotoad -s bin/webwork2

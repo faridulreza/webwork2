@@ -30,7 +30,7 @@ RUN echo Cloning branch $PG_BRANCH branch from $PG_GIT_URL \
 	&& rm -rf  pg/.git
 
 # Optional - include OPL (also need to uncomment further below when an included OPL is desired):
-#RUN git clone --single-branch --branch main --depth 1 https://github.com/openwebwork/webwork-open-problem-library.git \
+# RUN git clone --single-branch --branch main --depth 1 git@github.com:openwebwork/webwork-open-problem-library.git \
 #  && rm -rf  webwork-open-problem-library/.git
 
 # ==================================================================
@@ -207,7 +207,8 @@ COPY --from=base /opt/base/webwork2 $APP_ROOT/webwork2
 COPY --from=base /opt/base/pg $APP_ROOT/pg
 
 # Optional - include OPL (also need to uncomment above to clone from GitHub when needed):
-#COPY --from=base /opt/base/webwork-open-problem-library $APP_ROOT/libraries/webwork-open-problem-library
+#TODO: remove this
+COPY webwork-open-problem-library $APP_ROOT/libraries/webwork-open-problem-library
 
 # ==================================================================
 # Phase 6 - System configuration
@@ -272,7 +273,7 @@ WORKDIR $WEBWORK_ROOT
 
 COPY docker-config/docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Add enviroment variables to control some things during container startup
 ENV SSL=0 \

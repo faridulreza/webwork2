@@ -5,6 +5,7 @@ htdocs/tmp/*
 htdocs/DATA/library*.json
 htdocs/DATA/tagging-taxonomy.json
 htdocs/DATA/textbooks-tree.json
+webwork-open-problem-library/*
 .git
 .data
 .idea

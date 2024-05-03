@@ -4,7 +4,7 @@ services:
   app:
     # Modifying the image name can be helpful to create a new image instead of
     # overwriting the "standard" one during testing.
-    image: webwork
+    image: webwork_exp
 
     # Set a fixed container name, so it does not depend on the directory name
     container_name: webwork2_app_1
@@ -135,7 +135,7 @@ services:
       WEBWORK_DB_DRIVER: MariaDB
       # WEBWORK_DB_DRIVER: mysql
 
-      WEBWORK_DB_HOST: 127.0.0.1
+      WEBWORK_DB_HOST: localhost
       WEBWORK_DB_PORT: 3306
       WEBWORK_DB_NAME: webwork
 
