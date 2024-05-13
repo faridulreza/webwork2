@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+
 	# while true
 	# do
 	# 	echo "waiting..."
@@ -9,6 +9,8 @@ set -eo pipefail
 #setup db
 service mariadb start
 mysql < db_init_file.sql
+
+set -eo pipefail
 
 function wait_for_db {
 	echo "Waiting for database to become available..."
@@ -215,6 +217,9 @@ fi
 echo "Fixing ownership and permissions (just in case it is needed)"
 cd $WEBWORK_ROOT
 
+# echo "populating db...."
+# mysql  -u $WEBWORK_DB_USER -p$WEBWORK_DB_PASSWORD   < export.sql
+
 # Minimal chown/chmod code - moves the critical parts which were in blocks below
 # to here, but SKIPS handling htdocs/tmp and ../courses for the chmod line, and
 # SKIPS the deletion of symbolic links.  This change significantly speeds up
@@ -255,11 +260,15 @@ chown www-data:www-data  $APP_ROOT/courses/admin/*
 #find courses -type f -exec chown www-data:www-data {} \;
 #find courses -type d -exec chown www-data:www-data {} \;
 
+
+
+
+
 echo "End fixing ownership and permissions"
 
 # Start the Minion job queue.
 echo "Starting Minion job queue"
-www-data bin/webwork2 minion worker -m production &
+sudo -E -u www-data bin/webwork2 minion worker -m production &
 
 # The code below allows you to use
 #    docker container exec -it webwork2_app_1 hypnotoad -s bin/webwork2
