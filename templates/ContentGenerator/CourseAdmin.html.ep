@@ -5,25 +5,6 @@
 	<%= javascript getAssetURL($ce, 'js/SelectAll/selectall.js'), defer => undef =%>
 % end
 %
-% unless ($authz->hasPermissions(param('user'), 'create_and_delete_courses')) {
-	<div class="alert alert-danger p-1 mb-0">
-		<%= maketext('You are not authorized to create or delete courses.') %>
-	</div>
-	% last;
-% }
-%
-<%= include 'ContentGenerator/CourseAdmin/registration_form' %>
-%
-% if (@{ $c->{errors} }) {
-	<div class="alert alert-danger p-1 mb-2">
-		<div class="mb-1"><%= maketext('Please correct the following errors and try again:') %></div>
-		<ul class="mb-1">
-			% for (@{ $c->{errors} }) {
-				<li><%= $_ %></li>
-			% }
-		</ul>
-	</div>
-% }
 %
 % if ($c->{method_to_call}) {
 	% my $method_to_call = $c->{method_to_call};

@@ -185,6 +185,7 @@ RUN apt-get update \
 	texlive-science \
 	texlive-xetex \
 	tzdata \
+	mariadb-server \
 	zip $ADDITIONAL_BASE_IMAGE_PACKAGES \
 	&& curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
 	&& apt-get install -y --no-install-recommends --no-install-suggests nodejs \
@@ -255,9 +256,9 @@ ENV MYSQL_USER=webworkWrite
 ENV MYSQL_PASSWORD=passwordRWsetItBeforeFirstStartingTheDBcontainer
 # Install packages needed for MySQL
 
-RUN  apt-get update \ 
-	&&	apt-get install -y mariadb-server
+
 COPY db_init_file.sql  .
+COPY export.sql  .
 
 
 
